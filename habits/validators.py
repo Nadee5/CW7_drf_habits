@@ -1,4 +1,4 @@
-from datetime import timedelta
+import datetime
 
 from rest_framework.serializers import ValidationError
 
@@ -42,5 +42,5 @@ def deadline_validator(deadline):
     """Проверка продолжительности выполнения привычки:
          Должна быть не более 2 минут"""
 
-    if deadline > timedelta(minutes=2):
+    if deadline > datetime.time(minute=2):
         raise ValidationError('Время выполнения должно быть не больше 120 секунд.')
