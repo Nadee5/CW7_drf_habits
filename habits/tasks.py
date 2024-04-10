@@ -1,5 +1,4 @@
 from celery import shared_task
-import datetime
 from django.utils import timezone
 from habits.models import Habit
 from config.services import MyBot, change_start_date

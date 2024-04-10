@@ -51,4 +51,3 @@ class HabitDeleteAPIView(generics.DestroyAPIView):
     """Контроллер удаления привычки"""
     queryset = Habit.objects.all()
     permission_classes = [IsOwner]
-
