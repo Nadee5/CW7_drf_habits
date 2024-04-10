@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from habits.models import Habit
-from habits.validators import deadline_validator, RelatedOrRewardValidator, NiceHabitValidator, RelatedHabitValidator
+from habits.validators import RelatedOrRewardValidator, NiceHabitValidator, RelatedHabitValidator, \
+    DeadlineValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
     """Базовый сериализатор для модели привычки"""
-    deadline = serializers.TimeField(validators=[deadline_validator])
 
     class Meta:
         model = Habit
@@ -14,4 +14,5 @@ class HabitSerializer(serializers.ModelSerializer):
             RelatedOrRewardValidator(),
             NiceHabitValidator(),
             RelatedHabitValidator(),
+            DeadlineValidator(),
         ]
