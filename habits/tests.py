@@ -22,6 +22,11 @@ class HabitTestCase(APITestCase):
             deadline='20',
         )
 
+    def test_model_habit_str(self):
+        habit = Habit.objects.create(action='Написать тест', start_time='20:45:00', place='Комп')
+
+        self.assertEqual(str(habit), 'Привычка: Написать тест, время начать: 20:45:00, место: Комп')
+
     def test_user_habit_list(self):
         """Тестирование списка привычек для авторизованного пользователя"""
         response = self.client.get(reverse('habits:my_habit_list'))
@@ -98,11 +103,26 @@ class HabitTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertFalse(Habit.objects.filter(action=data['action']).exists())
 
-    def test_deadline_validator(self):
-        """Тестирование создания привычки"""
+    def test_nice_habit_validator(self):
+        """Проверка на отсутствие у приятной привычки полей связанной привычки и вознаграждения"""
         data = {
             'user': self.user.pk,
             'action': 'Тестовая привычка_5',
+            'place': 'В случайном месте',
+            'deadline': '20',
+            'is_nice': True,
+            'related_habit': self.habit.id,
+        }
+        response = self.client.post('/create/', data=data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertFalse(Habit.objects.filter(action=data['action']).exists())
+
+    def test_deadline_validator(self):
+        """Проверка продолжительности выполнения привычки: Должна быть не более 2 минут"""
+        data = {
+            'user': self.user.pk,
+            'action': 'Тестовая привычка_6',
             'place': 'В случайном месте',
             'deadline': '200',
         }
