@@ -45,9 +45,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'django_celery_beat',
 
     'users',
     'habits',
+
 ]
 
 MIDDLEWARE = [
@@ -151,14 +153,14 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     #  авторизация для всех эндпойнтов
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 
     #  авторизация для каждого эндпойнта пишется отдельно
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.AllowAny',
+    # ],
 }
 
 # Настройки срока действия токенов
@@ -168,6 +170,26 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True
 }
 
+# Настройки CORS
 CORS_ALLOWED_ORIGINS = ['http://localhost:8000']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 CORS_ALLOW_ALL_ORIGINS = False
+
+
+# Настройки для Celery
+
+# URL-адрес брокера сообщений Redis (по умолчанию порт 6379)
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER_URL')
+
+# Часовой пояс для работы Celery
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_BEAT_SCHEDULE = {
+    'send_tg_reminder': {
+        'task': 'habits.tasks.send_tg_reminder_task',  # Путь к задаче
+        'schedule': timedelta(minutes=1),  # Расписание выполнения задачи (например, каждые 10 минут)
+    }
+}
