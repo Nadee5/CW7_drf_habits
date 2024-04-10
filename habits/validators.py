@@ -38,9 +38,11 @@ class RelatedHabitValidator:
                                       'только привычки с признаком приятной привычки.')
 
 
-def deadline_validator(deadline):
+class DeadlineValidator:
     """Проверка продолжительности выполнения привычки:
          Должна быть не более 2 минут"""
 
-    if deadline > timedelta(minutes=2):
-        raise ValidationError('Время выполнения должно быть не больше 120 секунд.')
+    def __call__(self, value):
+        deadline = value.get('deadline')
+        if deadline > timedelta(minutes=2):
+            raise ValidationError('Время выполнения должно быть не больше 120 секунд.')
