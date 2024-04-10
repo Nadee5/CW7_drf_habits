@@ -14,4 +14,3 @@ urlpatterns = [
     path('update/<int:pk>/', HabitUpdateAPIView.as_view(), name='habit_edit'),
     path('delete/<int:pk>/', HabitDeleteAPIView.as_view(), name='habit_delete'),
 ]
-
