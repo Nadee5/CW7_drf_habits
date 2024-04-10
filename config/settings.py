@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'django_celery_beat',
+    'drf_yasg',
 
     'users',
     'habits',
