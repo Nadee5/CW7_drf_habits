@@ -22,11 +22,11 @@ class Habit(models.Model):
 
     action = models.TextField(verbose_name='Полезная привычка')
     place = models.CharField(max_length=150, verbose_name='Место выполнения')
-    start_date = models.DateField(default=timezone.now, verbose_name='Дата старта привычки',
+    start_date = models.DateField(default=timezone.now().date(), verbose_name='Дата старта привычки',
                                   help_text='Формат ГГГГ-ММ-ДД')
-    start_time = models.TimeField(default=timezone.now, verbose_name='Время старта привычки',
+    start_time = models.TimeField(default=timezone.now().time(), verbose_name='Время старта привычки',
                                   help_text='Формат ЧЧ:ММ:СС')
-    deadline = models.TimeField(default='00:00:00', verbose_name='Дедлайн выполнения привычки')
+    deadline = models.DurationField(default='00:00:00', verbose_name='Дедлайн выполнения привычки')
 
     period = models.CharField(max_length=30, default='daily', choices=PERIOD_CHOICES,
                               verbose_name='Периодичность выполнения')
@@ -44,4 +44,4 @@ class Habit(models.Model):
     class Meta:
         verbose_name = 'Привычка'
         verbose_name_plural = 'Привычки'
-        ordering = ('id', 'action',)
+        ordering = ('id',)
