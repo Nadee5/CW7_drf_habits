@@ -7,6 +7,7 @@ from users.models import User
 
 
 class HabitTestCase(APITestCase):
+    """Тесты к приложению habits"""
     def setUp(self) -> None:
         self.client = APIClient()
 

@@ -4,6 +4,7 @@ from users.models import User
 
 
 class UserTestCase(APITestCase):
+    """Тесты к приложению users"""
     def setUp(self) -> None:
         self.client = APIClient()
 
